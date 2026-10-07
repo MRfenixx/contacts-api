@@ -167,6 +167,55 @@ app.get('/contactos/:id', async (req, res) => {
   }
 });
 
+// ==========================================
+// 4. ENDPOINT: PATCH /contactos/:id/notas (Agregar o actualizar notas de un contacto)
+// ==========================================
+app.patch('/contactos/:id/notas', async (req, res) => {
+  try {
+    // Extraemos el ID de los parámetros de la URL y las notas del cuerpo de la petición (JSON)
+    const { id } = req.params;
+    const { notas } = req.body;
+
+    // Validación: Verificar que el campo notas esté presente en el body
+    if (notas === undefined || notas === null) {
+      return res.status(400).json({ 
+        error: 'El campo "notas" es obligatorio en el cuerpo de la petición.' 
+      });
+    }
+
+    // Consulta SQL parametrizada para actualizar las notas del contacto y retornar el registro actualizado
+    const query = `
+      UPDATE contactos 
+      SET notas = $1 
+      WHERE id = $2 
+      RETURNING *;
+    `;
+    const values = [notas, id];
+
+    const resultado = await pool.query(query, values);
+
+    // Si el contacto no existe, resultado.rows estará vacío -> Retornar error 404
+    if (resultado.rows.length === 0) {
+      return res.status(404).json({ 
+        error: `El contacto con ID ${id} no fue encontrado para actualizar sus notas.` 
+      });
+    }
+
+    // Respondemos con código 200 y el contacto actualizado
+    return res.status(200).json({
+      mensaje: 'Notas actualizadas exitosamente',
+      contacto: resultado.rows[0]
+    });
+
+  } catch (err) {
+    // Capturamos cualquier error del servidor
+    console.error('Error al actualizar las notas:', err);
+    return res.status(500).json({ 
+      error: 'Error interno del servidor al actualizar las notas.' 
+    });
+  }
+});
+
 // Arrancar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
