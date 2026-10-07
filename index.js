@@ -86,6 +86,52 @@ app.post('/contactos', async (req, res) => {
   }
 });
 
+// ==========================================
+// 2. ENDPOINT: GET /contactos (Listar y buscar contactos)
+// ==========================================
+app.get('/contactos', async (req, res) => {
+  try {
+    // Capturamos el parámetro de consulta ?q= de la URL (si existe)
+    const { q } = req.query;
+
+    let query;
+    let values = [];
+
+    // Si el usuario envió un término de búsqueda 'q', filtramos por nombre o empresa (case-insensitive con ILIKE)
+    if (q) {
+      query = `
+        SELECT * FROM contactos 
+        WHERE nombre ILIKE $1 OR empresa ILIKE $1
+        ORDER BY id DESC;
+      `;
+      // Usamos comodines % alrededor del término para buscar coincidencias parciales de forma segura
+      values = [`%${q}%`];
+    } else {
+      // Si no hay parámetro de búsqueda, traemos todos los contactos ordenados del más reciente al más antiguo
+      query = `
+        SELECT * FROM contactos 
+        ORDER BY id DESC;
+      `;
+    }
+
+    // Ejecutamos la consulta en la base de datos
+    const resultado = await pool.query(query, values);
+
+    // Respondemos con código 200 y la lista de contactos encontrados (resultado.rows)
+    return res.status(200).json({
+      total: resultado.rows.length,
+      contactos: resultado.rows
+    });
+
+  } catch (err) {
+    // Si ocurre un error inesperado, respondemos con código 500
+    console.error('Error al listar los contactos:', err);
+    return res.status(500).json({ 
+      error: 'Error interno del servidor al listar los contactos.' 
+    });
+  }
+});
+
 // Arrancar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
