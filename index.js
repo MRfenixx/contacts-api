@@ -78,7 +78,7 @@ app.post('/contactos', async (req, res) => {
     });
 
   } catch (err) {
-    // Capturamos cualquier error de base de datos o servidor y respondemos con 500
+    // Capturamos cualquier error de base de datos o servidor para que no explote y respondemos con 500
     console.error('Error al crear el contacto:', err);
     return res.status(500).json({ 
       error: 'Error interno del servidor al crear el contacto.' 
