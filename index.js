@@ -32,6 +32,7 @@ initDB();
 // Ruta básica de prueba
 app.get('/', (req, res) => {
   res.send('API del CRM funcionando correctamente');
+  // res es el objeto que representa la respuesta HTTP que el servidor envía de regreso al cliente
 });
 
 // Arrancar el servidor
