@@ -132,6 +132,41 @@ app.get('/contactos', async (req, res) => {
   }
 });
 
+// ==========================================
+// 3. ENDPOINT: GET /contactos/:id (Ver un contacto por su ID)
+// ==========================================
+app.get('/contactos/:id', async (req, res) => {
+  try {
+    // Extraemos el parámetro 'id' de la URL (req.params)
+    const { id } = req.params;
+
+    // Consulta SQL parametrizada para buscar el contacto por su ID único
+    const query = 'SELECT * FROM contactos WHERE id = $1;';
+    const values = [id];
+
+    const resultado = await pool.query(query, values);
+
+    // Verificamos si el contacto existe en la base de datos (si el array de filas está vacío)
+    if (resultado.rows.length === 0) {
+      return res.status(404).json({ 
+        error: `El contacto con ID ${id} no fue encontrado.` 
+      });
+    }
+
+    // Si existe, respondemos con código 200 y los datos del contacto
+    return res.status(200).json({
+      contacto: resultado.rows[0]
+    });
+
+  } catch (err) {
+    // Capturamos errores (por ejemplo, si envían un ID con formato inválido para un entero en postgres)
+    console.error('Error al obtener el contacto:', err);
+    return res.status(500).json({ 
+      error: 'Error interno del servidor al obtener el contacto.' 
+    });
+  }
+});
+
 // Arrancar el servidor
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
