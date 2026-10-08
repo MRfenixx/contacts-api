@@ -144,10 +144,12 @@ npm run dev
 
 ## 🤖 Uso de IA
 
-Durante el desarrollo de esta prueba técnica, se utilizó asistencia de Inteligencia Artificial (opencode / LLM) como **Mentor Técnico** para:
-1. **Planificación y Arquitectura:** Estructurar el paso a paso del desarrollo modular de la API REST sin dependencias innecesarias de ORMs pesados, manteniendo la cercanía con SQL nativo (`pg`).
-2. **Generación de Código Base y Validaciones:** Redacción de validaciones con Regex, manejo de promesas con `async/await`, bloques `try/catch` y códigos de estado HTTP correctos (`200`, `201`, `400`, `404`, `500`).
-3. **Buenas Prácticas de Git y Documentación:** Guías para mantener un historial de commits atómicos y estructurar este archivo `README.md`.
+### Flujo de Trabajo con IA
+El desarrollo se gestionó mediante un flujo de trabajo incremental y estratégico utilizando la IA como herramienta de mentoría técnica:
+
+- **Estructuración previa:** Se configuró primero la infraestructura (Docker, dependencias, servidor base y conexión modular) antes de delegar cualquier lógica de negocio.
+- **Desarrollo dirigido:** Se solicitaron los endpoints de forma iterativa bajo directrices estrictas (uso obligatorio de `async/await`, validaciones robustas, códigos HTTP precisos y SQL parametrizado).
+- **Validación humana:** Cada bloque de código fue revisado, analizado y probado manualmente para garantizar la comprensión total de la arquitectura antes de registrar el avance en el historial de Git.
 
 **Verificación y Corrección Humana:**
 - Todo el código generado fue revisado línea por línea para asegurar la comprensión total de su funcionamiento.
