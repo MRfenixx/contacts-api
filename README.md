@@ -144,14 +144,8 @@ npm run dev
 
 ## 🤖 Uso de IA
 
-### Flujo de Trabajo con IA
 El desarrollo se gestionó mediante un flujo de trabajo incremental y estratégico utilizando la IA como herramienta de mentoría técnica:
 
 - **Estructuración previa:** Se configuró primero la infraestructura (Docker, dependencias, servidor base y conexión modular) antes de delegar cualquier lógica de negocio.
-- **Desarrollo dirigido:** Se solicitaron los endpoints de forma iterativa bajo directrices estrictas (uso obligatorio de `async/await`, validaciones robustas, códigos HTTP precisos y SQL parametrizado).
-- **Validación humana:** Cada bloque de código fue revisado, analizado y probado manualmente para garantizar la comprensión total de la arquitectura antes de registrar el avance en el historial de Git.
-
-**Verificación y Corrección Humana:**
-- Todo el código generado fue revisado línea por línea para asegurar la comprensión total de su funcionamiento.
-- Se verificó explícitamente el uso de consultas parametrizadas (`$1, $2`) para prevenir ataques de SQL Injection en cada uno de los endpoints con operaciones de base de datos.
-- Se realizaron pruebas manuales en cliente HTTP para confirmar el comportamiento ante casos exitosos y de error (`404` / `400`).
+- **Desarrollo dirigido:** Se solicitaron los endpoints de forma iterativa bajo directrices estrictas (`async/await`, validaciones con Regex, códigos HTTP precisos y SQL parametrizado).
+- **Verificación y validación humana:** Cada bloque de código fue revisado línea por línea, verificando el uso de consultas parametrizadas (`$1, $2`) contra SQL Injection y realizando pruebas manuales en cliente HTTP (`200`, `201`, `400`, `404`) para garantizar la comprensión total antes de registrar cada avance en Git.
