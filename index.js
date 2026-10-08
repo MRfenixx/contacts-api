@@ -54,7 +54,7 @@ app.post('/contactos', async (req, res) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(correo)) {
       return res.status(400).json({ 
-        error: 'El formato del correo electrónico no es válido.' 
+        error: 'El formato del correo electrónico no es válido.'  
       });
     }
 
