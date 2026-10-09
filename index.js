@@ -8,26 +8,21 @@ const PORT = 3000;
 app.use(express.json());
 
 // Función para inicializar la base de datos
+// Lanza un error si la consulta falla para evitar iniciar el servidor sin tabla
 const initDB = async () => {
-  try {
-    // Creamos la tabla 'contactos' solo si no existe
-    await pool.query(`
-      CREATE TABLE IF NOT EXISTS contactos (
-        id SERIAL PRIMARY KEY,
-        nombre VARCHAR(100) NOT NULL,
-        correo VARCHAR(100) NOT NULL,
-        telefono VARCHAR(20),
-        empresa VARCHAR(100),
-        notas TEXT
-      );
-    `);
-    console.log('✅ Tabla "contactos" lista en la base de datos.');
-  } catch (err) {
-    console.error('❌ Error creando la tabla:', err);
-  }
+  // Creamos la tabla 'contactos' solo si no existe en la base de datos
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS contactos (
+      id SERIAL PRIMARY KEY,
+      nombre VARCHAR(100) NOT NULL,
+      correo VARCHAR(100) NOT NULL,
+      telefono VARCHAR(20),
+      empresa VARCHAR(100),
+      notas TEXT
+    );
+  `);
+  console.log('✅ Tabla "contactos" lista en la base de datos.');
 };
-
-initDB();
 
 // Ruta básica de prueba
 app.get('/', (req, res) => {
@@ -216,7 +211,24 @@ app.patch('/contactos/:id/notas', async (req, res) => {
   }
 });
 
-// Arrancar el servidor
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
-});
+// ==========================================
+// Función de arranque seguro (Bootstrap)
+// Evita race conditions: Express solo acepta peticiones cuando la DB está confirmada
+// ==========================================
+const startServer = async () => {
+  try {
+    // 1. Esperamos a que la base de datos y la tabla estén listas
+    await initDB();
+
+    // 2. Solo tras confirmar la base de datos, arrancamos a escuchar peticiones
+    app.listen(PORT, () => {
+      console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+    });
+  } catch (err) {
+    // Si la conexión o la creación de la tabla fallan, detenemos el proceso (Fail-Fast)
+    console.error('❌ Error fatal al inicializar la base de datos. Servidor no iniciado:', err);
+    process.exit(1);
+  }
+};
+
+startServer();
