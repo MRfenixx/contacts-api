@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { Pool } = require('pg');
 
-// Configuración de la conexión a PostgreSQL dependiente estrictamente de process.env (.env)
+// Configuración estricta de la conexión a PostgreSQL mediante variables de entorno
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
