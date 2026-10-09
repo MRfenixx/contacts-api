@@ -56,4 +56,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Si ejecutamos directamente el archivo, arrancamos el servidor. Si Jest lo requiere, no arranca listen.
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = app;
