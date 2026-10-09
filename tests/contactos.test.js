@@ -18,7 +18,7 @@ describe('Endpoints de Contactos', () => {
   });
 
   it('Debe retornar 400 si el ID no es numérico', async () => {
-    const response = await request(app).get('/contactos/pepito');
+    const response = await request(app).get('/contactos/elpepe');
     
     expect(response.statusCode).toBe(400);
     expect(response.body).toHaveProperty('error', 'El ID debe ser un valor numérico');
