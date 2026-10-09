@@ -1,6 +1,7 @@
 const express = require('express');
 const pool = require('./config/db');
 const contactosRoutes = require('./routes/contactos.routes');
+const errorHandler = require('./middlewares/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,6 +32,9 @@ app.get('/', (req, res) => {
 
 // Registro de rutas del CRM
 app.use('/contactos', contactosRoutes);
+
+// Middleware global de manejo de errores (CRÍTICO: Colocado después de las rutas y antes de arrancar el servidor)
+app.use(errorHandler);
 
 // ==========================================
 // Función de arranque seguro (Bootstrap)

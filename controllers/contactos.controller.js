@@ -82,9 +82,9 @@ const obtenerContactoPorId = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    // Validación de ID numérico (Fase 3 / robustez)
+    // Validación de ID numérico
     if (isNaN(id)) {
-      return res.status(400).json({ error: 'El ID debe ser numérico.' });
+      return res.status(400).json({ error: 'El ID debe ser un valor numérico' });
     }
 
     const query = 'SELECT * FROM contactos WHERE id = $1;';
@@ -116,7 +116,7 @@ const actualizarNotas = async (req, res, next) => {
 
     // Validación de ID numérico
     if (isNaN(id)) {
-      return res.status(400).json({ error: 'El ID debe ser numérico.' });
+      return res.status(400).json({ error: 'El ID debe ser un valor numérico' });
     }
 
     if (notas === undefined || notas === null) {
