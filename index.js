@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('./db');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware: Le dice a Express que vamos a recibir y enviar datos en formato JSON
 app.use(express.json());

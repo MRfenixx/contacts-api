@@ -1,11 +1,13 @@
+require('dotenv').config();
 const { Pool } = require('pg');
-// las conexion con las credenciales de la base de datos del docker-compose.yml
+
+// Configuración de la conexión a PostgreSQL mediante variables de entorno (.env)
 const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'crm_db',
-  password: 'postgrespassword',
-  port: 5432,
+  user: process.env.DB_USER || 'postgres',
+  host: process.env.DB_HOST || 'localhost',
+  database: process.env.DB_NAME || 'crm_db',
+  password: process.env.DB_PASSWORD || 'postgrespassword',
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 5432,
 });
 
 pool.connect((err, client, release) => {
