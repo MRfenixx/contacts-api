@@ -28,8 +28,8 @@ Sigue estos pasos para levantar el entorno de desarrollo:
 
 ### 1. Clonar el repositorio y cambiar a la rama de trabajo
 ```bash
-git clone <url-del-repositorio>
-cd <nombre-del-proyecto>
+git clone <https://github.com/MRfenixx/contacts-api.git>
+cd <contacts-api>
 git checkout feature/contactos
 ```
 
