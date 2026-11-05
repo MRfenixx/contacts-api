@@ -1,4 +1,4 @@
-# CRM API - Prueba Técnica Backend (CachalotLab)
+# CRM API - Prueba Técnica Backend
 
 API REST modular desarrollada en Node.js, Express y PostgreSQL (usando la librería nativa `pg`) para la gestión de contactos de un CRM, siguiendo buenas prácticas de arquitectura, manejo de errores, seguridad contra SQL Injection y pruebas automatizadas.
 
